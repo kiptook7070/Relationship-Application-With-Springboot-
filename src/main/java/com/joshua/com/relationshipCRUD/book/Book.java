@@ -30,6 +30,11 @@ public class Book implements Serializable {
     )
     private Long id;
     @Column(
+            length = 8,
+            nullable = false
+    )
+    private String entityId;
+    @Column(
             columnDefinition = "TEXT",
             length = 255,
             nullable = false
