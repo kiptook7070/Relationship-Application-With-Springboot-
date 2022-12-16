@@ -3,6 +3,7 @@ package com.joshua.com.relationshipCRUD.book;
 import com.joshua.com.relationshipCRUD.utils.httpInterceptor.EntityRequestContext;
 import com.joshua.com.relationshipCRUD.utils.httpInterceptor.UserRequestContext;
 import com.joshua.com.relationshipCRUD.utils.responses.EntityResponse;
+import com.joshua.com.relationshipCRUD.utils.responses.RESPONSEMESSAGES;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,43 +29,32 @@ public class BookController {
         this.bookService = bookService1;
         this.bookRepo = bookRepo1;
     }
-
     @PostMapping("/add")
-    public ResponseEntity<?> registerBook(@RequestBody Book book) {
+    public ResponseEntity<?> registerBook(@Validated @RequestBody Book book) {
         try {
-            book.setPostedFlag("Y");
-            book.setPostedTime(new Date());
-            book.setPostedBy("ROTICH");
-            book.setEntityId("EN001");
+            Optional<Book> findIsbn = bookRepo.findBookByIsbn(book.getIsbn());
+            if (findIsbn.isPresent()){
+                EntityResponse response = new EntityResponse();
+                response.setMessage("THE BOOK WITH ISBN REGISTRATION"+ " " + book.getIsbn() + " " + "ALREADY REGISTERED");
+                response.setStatusCode(HttpStatus.OK.value());
+                response.setEntity("");
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                book.setPostedFlag("Y");
+                book.setPostedTime(new Date());
+                book.setPostedBy("ROTICH");
+                book.setEntityId("EN001");
 
-            bookService.registerBook(book);
-            EntityResponse response = new EntityResponse();
-            response.setMessage(HttpStatus.CREATED.getReasonPhrase());
-            response.setStatusCode(HttpStatus.CREATED.value());
-            response.setEntity(book);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-
+                bookService.registerBook(book);
+                EntityResponse response = new EntityResponse();
+                response.setMessage(RESPONSEMESSAGES.BOOK + " " + book.getIsbn() + " " + RESPONSEMESSAGES.BOOK_ADDED_SUCCESSFULLY);
+                response.setStatusCode(HttpStatus.CREATED.value());
+                response.setEntity(book);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
 
         } catch (Exception e) {
             return null;
         }
     }
-//    public ResponseEntity<?> addBook(@Validated @RequestBody Book book) {
-//        try {
-//            Optional<Book> checkBook = bookRepo.findBookByIdAndDeletedFlag(book.getId(), "N");
-//            if (checkBook.isPresent()) {
-//                return new ResponseEntity<>("Code exist", HttpStatus.valueOf(HttpStatus.NOT_ACCEPTABLE.value()));
-//
-//            } else {
-//                Book addBook = bookRepo.save(book);
-//                log.info("BOOK CREATED SUCCESSFULLY");
-//                return new ResponseEntity<>("BOOK CREATED SUCCESSFULLY", HttpStatus.CREATED);
-//            }
-//        } catch (Exception exception) {
-//            log.info("CAN NOT CREATE NEW BOOK" + exception);
-//            return null;
-//        }
-//
-//    }
     }

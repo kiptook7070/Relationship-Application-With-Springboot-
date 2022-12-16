@@ -18,11 +18,11 @@ public class SwaggerConfig {
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("E&M SACCO SOLUTION",
-                "Comprehensive SAcco SOlution.",
+        return new ApiInfo("ENTITY RELATIONSHIP SOLUTION",
+                "Comprehensive SPRING BOOT RELATIONSHIP.",
                 "1.0",
                 "Terms of service",
-                new Contact("E&M", "www.emtechhouse.co.ke", "developer@emtechhouse.co.ke"),
+                new Contact("kiptook7070", "kiptook2020@gmail.com", "kiptook2020@gmail.com"),
                 "License of API",
                 "API license URL",
                 Collections.emptyList());
