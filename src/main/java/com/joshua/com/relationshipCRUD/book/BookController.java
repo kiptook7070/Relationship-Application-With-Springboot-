@@ -40,10 +40,9 @@ public class BookController {
                 book.setPostedTime(new Date());
                 book.setPostedBy("ROTICH");
                 book.setEntityId("EN001");
-
-                bookService.registerBook(book);
+                bookService.updateBook(book);
                 EntityResponse response = new EntityResponse();
-                response.setMessage(RESPONSEMESSAGES.BOOK + " " + book.getIsbn() + " " + RESPONSEMESSAGES.BOOK_ADDED_SUCCESSFULLY);
+                response.setMessage(RESPONSEMESSAGES.BOOK + " " + book + " " + RESPONSEMESSAGES.BOOK_ADDED_SUCCESSFULLY);
                 response.setStatusCode(HttpStatus.CREATED.value());
                 response.setEntity(book);
                 return new ResponseEntity<>(response, HttpStatus.OK);
@@ -63,6 +62,35 @@ public class BookController {
             response.setStatusCode(HttpStatus.CREATED.value());
             response.setEntity(book);
             return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.info("{CACHED ERROR}" + e);
+            return null;
+        }
+    }
+    @PutMapping("/update")
+    public ResponseEntity<?> updateBook(@Validated @RequestBody Book book){
+        try {
+            Optional<Book> bookId = bookRepo.findBookById(book.getId());
+            if (!bookId.isPresent()) {
+                EntityResponse response = new EntityResponse();
+                response.setMessage("THE BOOK WITH CODE REGISTRATION" + " " + book.getId() + " " + "NOT FOUND");
+                response.setStatusCode(HttpStatus.OK.value());
+                response.setEntity("");
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                book.setModifiedFlag("Y");
+                book.setModifiedTime(new Date());
+                book.setModifiedBy("ROTICH");
+                book.setEntityId("EN001");
+
+                bookService.updateBook(book);
+                EntityResponse response = new EntityResponse();
+                response.setMessage(RESPONSEMESSAGES.BOOK + " " + book.getIsbn() + " " + RESPONSEMESSAGES.BOOK_UPDATED);
+                response.setStatusCode(HttpStatus.CREATED.value());
+                response.setEntity(book);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
         } catch (Exception e) {
             log.info("{CACHED ERROR}" + e);
             return null;
