@@ -3,6 +3,8 @@ package com.joshua.com.relationshipCRUD.book;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class BookService {
@@ -19,6 +21,16 @@ public class BookService {
             return saveBook;
         } catch (Exception exception) {
             log.info("BOOK NOT REGISTERED!!" + exception);
+            return null;
+        }
+    }
+
+    public List<Book> getAllBooks() {
+        try {
+            log.info("BOOKS RETRIEVED SUCCESSFULLY");
+            return bookRepo.findAll() ;
+        } catch (Exception exception) {
+            log.info("FAILED TO GET BOOKS!!" + exception);
             return null;
         }
     }

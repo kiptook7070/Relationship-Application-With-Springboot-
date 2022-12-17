@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -56,9 +57,10 @@ public class Book implements Serializable {
     @OneToMany(
             mappedBy = "book",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            targetEntity = Page.class)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Page>pages;
+    private List<Page> pages;
 
     //*****************Operational Audit *********************
     @Column(length = 30, nullable = false)

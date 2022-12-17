@@ -3,10 +3,12 @@ package com.joshua.com.relationshipCRUD.pages;
 import com.joshua.com.relationshipCRUD.book.Book;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,7 +42,8 @@ public class Page implements Serializable {
     private String chapter;
     @ManyToOne(
             fetch = FetchType.LAZY,
-            optional = false
+            optional = false,
+            targetEntity = Book.class
     )
     @JoinColumn(
             name = "book_id",
