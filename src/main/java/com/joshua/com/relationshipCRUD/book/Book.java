@@ -37,28 +37,28 @@ public class Book implements Serializable {
     private String entityId;
     @Column(
             columnDefinition = "TEXT",
-            length = 255,
             nullable = false
     )
     private String title;
     @Column(
             columnDefinition = "TEXT",
-            length = 255,
             nullable = false
     )
     private String author;
     @Column(
             columnDefinition = "TEXT",
-            length = 255,
             nullable = false,
             unique = true
     )
     private String isbn;
     @OneToMany(
-            mappedBy = "book",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             targetEntity = Page.class)
+    @JoinColumn(
+            name = "book_id",
+            referencedColumnName = "id"
+    )
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Page> pages;
 

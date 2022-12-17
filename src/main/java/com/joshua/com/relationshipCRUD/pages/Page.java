@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -40,14 +41,9 @@ public class Page implements Serializable {
             columnDefinition = "TEXT"
     )
     private String chapter;
-    @ManyToOne(
-            fetch = FetchType.LAZY,
-            optional = false,
-            targetEntity = Book.class
-    )
-    @JoinColumn(
-            name = "book_id",
+    @Column(
+            columnDefinition = "INT",
             nullable = false
     )
-    private Book book;
+    private Long book_id;
 }

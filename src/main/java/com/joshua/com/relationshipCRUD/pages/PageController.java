@@ -8,12 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Api(value = "Pages API", tags = "Page APIs ")
@@ -28,11 +26,12 @@ public class PageController {
         this.pageService = pageService1;
         this.pageRepo = pageRepo1;
     }
-@PostMapping("/add")
-    public ResponseEntity<?> addNewPage (@Validated @RequestBody Page page){
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addNewPage(@Validated @RequestBody Page page) {
         try {
             Optional<Page> searchPageNumber = pageRepo.findPageByNumber(page.getNumber());
-            if (searchPageNumber.isPresent()){
+            if (searchPageNumber.isPresent()) {
                 EntityResponse response = new EntityResponse();
                 response.setMessage("THE PAGE WITH NUMBERING" + " " + page.getNumber() + " " + "ALREADY NUMBERED");
                 response.setStatusCode(HttpStatus.OK.value());
@@ -47,9 +46,69 @@ public class PageController {
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
 
-        } catch (Exception e){
+        } catch (Exception e) {
             log.info("{CACHED ERROR}" + e);
             return null;
         }
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllPages() {
+        try {
+            List<Page> pages = pageService.getAllPages();
+            EntityResponse response = new EntityResponse();
+            response.setMessage(RESPONSEMESSAGES.RECORD_FOUND);
+            response.setStatusCode(HttpStatus.CREATED.value());
+            response.setEntity(pages);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.info("{CACHED ERROR}" + e);
+            return null;
+        }
+    }
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<?> getPageById(@PathVariable("id") Long id) {
+        try {
+            Optional<Page> findpage = pageRepo.findPageById(id);
+            EntityResponse response = new EntityResponse();
+            if(!findpage.isPresent()){
+                response.setMessage("THE PAGE WITH ID" + " " + id + " " + "NOT FOUND");
+                response.setStatusCode(HttpStatus.OK.value());
+                response.setEntity("");
+            } else{
+                response.setMessage(RESPONSEMESSAGES.RECORD_FOUND);
+                response.setStatusCode(HttpStatus.CREATED.value());
+                response.setEntity(findpage);
+            }
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (Exception e) {
+            log.info("{CACHED ERROR}" + e);
+            return null;
+        }
+    }
+
+    @GetMapping("/find/number/{number}")
+    public ResponseEntity<?> getPageByNumber(@PathVariable("number") int number) {
+        try {
+            Optional<Page> findPageNumber = pageRepo.findPageByNumber(number);
+            EntityResponse response = new EntityResponse();
+            if(!findPageNumber.isPresent()){
+                response.setMessage("THE PAGE WITH NUMBERING" + " " + number + " " + "NOT FOUND");
+                response.setStatusCode(HttpStatus.OK.value());
+                response.setEntity("");
+            } else{
+                response.setMessage(RESPONSEMESSAGES.RECORD_FOUND);
+                response.setStatusCode(HttpStatus.CREATED.value());
+                response.setEntity(findPageNumber);
+            }
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (Exception e) {
+            log.info("{CACHED ERROR}" + e);
+            return null;
+        }
+    }
+
 }

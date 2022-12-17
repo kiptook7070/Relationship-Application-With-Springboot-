@@ -9,7 +9,7 @@ public class RESPONSEMESSAGES {
     public static final String RECORD_FOUND = "RECORD FOUND";
     public static final String RECORD_DELETED = "DELETED SUCCESSFULLY";
 
-    public static final String PAGE = "PAGE WITH";
-    public static final String BOOK_PAGE_ADDED_SUCCESSFULLY = "PAGE ADDED SUCCESSFULLY";
+    public static final String PAGE = "PAGE WITH NUMBERING";
+    public static final String BOOK_PAGE_ADDED_SUCCESSFULLY = "ADDED SUCCESSFULLY";
     public static final String PAGE_RECORDS_RETRIEVED_SUCCESSFULLY = "PAGES REGISTERED RETRIEVED SUCCESSFULLY";
 }
