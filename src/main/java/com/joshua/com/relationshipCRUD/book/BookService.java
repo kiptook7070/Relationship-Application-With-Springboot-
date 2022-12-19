@@ -37,9 +37,8 @@ public class BookService {
 
     public Book updateBook(Book book) {
         try {
-            Book updateBook = bookRepo.save(book);
             log.info("BOOK MODIFIED SUCCESSFULLY");
-            return updateBook;
+            return bookRepo.save(book);
         } catch (Exception exception) {
             log.info("CAN NOT MODIFY THE BOOK RESULTS!!" + exception);
             return null;

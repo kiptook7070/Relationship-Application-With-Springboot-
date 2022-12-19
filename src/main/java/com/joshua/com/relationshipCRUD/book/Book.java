@@ -31,12 +31,6 @@ public class Book implements Serializable {
     )
     private Long id;
     @Column(
-            length = 8,
-            nullable = false
-    )
-    private String entityId;
-    @Column(
-            columnDefinition = "TEXT",
             nullable = false
     )
     private String title;
@@ -59,10 +53,8 @@ public class Book implements Serializable {
             name = "book_id",
             referencedColumnName = "id"
     )
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Page> pages;
 
-    //*****************Operational Audit *********************
     @Column(length = 30, nullable = false)
     private String postedBy;
     @Column(nullable = false)

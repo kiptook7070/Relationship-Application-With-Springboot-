@@ -38,11 +38,10 @@ public class BookController {
             } else {
                 book.setPostedFlag("Y");
                 book.setPostedTime(new Date());
-                book.setPostedBy("ROTICH");
-                book.setEntityId("EN001");
-                bookService.updateBook(book);
+                book.setPostedBy("SYSTEM");
+                bookService.registerBook(book);
                 EntityResponse response = new EntityResponse();
-                response.setMessage(RESPONSEMESSAGES.BOOK + " " + book + " " + RESPONSEMESSAGES.BOOK_ADDED_SUCCESSFULLY);
+                response.setMessage(RESPONSEMESSAGES.BOOK + " "+ " "+ RESPONSEMESSAGES.ISBN + " " + book.getIsbn() + " " + RESPONSEMESSAGES.BOOK_ADDED_SUCCESSFULLY);
                 response.setStatusCode(HttpStatus.CREATED.value());
                 response.setEntity(book);
                 return new ResponseEntity<>(response, HttpStatus.OK);
@@ -70,18 +69,12 @@ public class BookController {
     @PutMapping("/update")
     public ResponseEntity<?> updateBook(@Validated @RequestBody Book book){
         try {
-            Optional<Book> bookId = bookRepo.findBookById(book.getId());
-            if (!bookId.isPresent()) {
-                EntityResponse response = new EntityResponse();
-                response.setMessage("THE BOOK WITH CODE REGISTRATION" + " " + book.getId() + " " + "NOT FOUND");
-                response.setStatusCode(HttpStatus.OK.value());
-                response.setEntity("");
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            } else {
+            Optional<Book> book1 = bookRepo.findBookById(book.getId());
+            System.out.println("BOOK ID" + book1);
+            if (book1.isPresent()) {
                 book.setModifiedFlag("Y");
                 book.setModifiedTime(new Date());
-                book.setModifiedBy("ROTICH");
-                book.setEntityId("EN001");
+                book.setModifiedBy("SYSTEM");
 
                 bookService.updateBook(book);
                 EntityResponse response = new EntityResponse();
@@ -89,6 +82,17 @@ public class BookController {
                 response.setStatusCode(HttpStatus.CREATED.value());
                 response.setEntity(book);
                 return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
+
+            else {
+                EntityResponse response = new EntityResponse();
+                response.setMessage("THE BOOK WITH CODE REGISTRATION" + " " + book.getId() + " " + "NOT FOUND");
+                response.setStatusCode(HttpStatus.OK.value());
+                response.setEntity("");
+                return new ResponseEntity<>(response, HttpStatus.OK);
+
+
             }
 
         } catch (Exception e) {

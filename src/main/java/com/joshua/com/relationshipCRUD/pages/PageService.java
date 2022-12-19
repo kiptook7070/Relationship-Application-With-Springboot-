@@ -35,4 +35,14 @@ public class PageService {
             return null;
         }
     }
+
+    public Page updatePage(Page page) {
+        try {
+            log.info("PAGE UPDATED SUCCESSFULLY");
+            return pageRepo.save(page);
+        } catch (Exception exception) {
+            log.info("FAIL PAGES!!" + exception);
+            return null;
+        }
+    }
 }

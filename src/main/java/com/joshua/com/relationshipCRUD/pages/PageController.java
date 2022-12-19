@@ -1,6 +1,5 @@
 package com.joshua.com.relationshipCRUD.pages;
 
-import com.joshua.com.relationshipCRUD.book.Book;
 import com.joshua.com.relationshipCRUD.utils.responses.EntityResponse;
 import com.joshua.com.relationshipCRUD.utils.responses.RESPONSEMESSAGES;
 import io.swagger.annotations.Api;
@@ -39,6 +38,9 @@ public class PageController {
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
                 pageService.addNewPage(page);
+                page.setPostedBy("SYSTEM");
+                page.setPostedFlag("Y");
+                page.setPostedTime(new Date());
                 EntityResponse response = new EntityResponse();
                 response.setMessage(RESPONSEMESSAGES.PAGE + " " + page.getNumber() + " " + RESPONSEMESSAGES.BOOK_PAGE_ADDED_SUCCESSFULLY);
                 response.setStatusCode(HttpStatus.CREATED.value());
@@ -72,11 +74,11 @@ public class PageController {
         try {
             Optional<Page> findpage = pageRepo.findPageById(id);
             EntityResponse response = new EntityResponse();
-            if(!findpage.isPresent()){
+            if (!findpage.isPresent()) {
                 response.setMessage("THE PAGE WITH ID" + " " + id + " " + "NOT FOUND");
                 response.setStatusCode(HttpStatus.OK.value());
                 response.setEntity("");
-            } else{
+            } else {
                 response.setMessage(RESPONSEMESSAGES.RECORD_FOUND);
                 response.setStatusCode(HttpStatus.CREATED.value());
                 response.setEntity(findpage);
@@ -89,16 +91,16 @@ public class PageController {
         }
     }
 
-    @GetMapping("/find/number/{number}")
+    @GetMapping("/find/page/{number}")
     public ResponseEntity<?> getPageByNumber(@PathVariable("number") int number) {
         try {
             Optional<Page> findPageNumber = pageRepo.findPageByNumber(number);
             EntityResponse response = new EntityResponse();
-            if(!findPageNumber.isPresent()){
+            if (!findPageNumber.isPresent()) {
                 response.setMessage("THE PAGE WITH NUMBERING" + " " + number + " " + "NOT FOUND");
                 response.setStatusCode(HttpStatus.OK.value());
                 response.setEntity("");
-            } else{
+            } else {
                 response.setMessage(RESPONSEMESSAGES.RECORD_FOUND);
                 response.setStatusCode(HttpStatus.CREATED.value());
                 response.setEntity(findPageNumber);
@@ -111,4 +113,25 @@ public class PageController {
         }
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody Page page) {
+        try {
+            Optional<Page> checkPage = pageRepo.findPageById((page.getId()));
+            EntityResponse response = new EntityResponse();
+            if (!checkPage.isPresent()) {
+                response.setMessage("THE PAGE WITH ID" + " " + page.getId() + " " + "NOT FOUND");
+                response.setStatusCode(HttpStatus.OK.value());
+                response.setEntity("");
+            } else {
+                response.setMessage(RESPONSEMESSAGES.RECORD_FOUND);
+                response.setStatusCode(HttpStatus.CREATED.value());
+                pageService.updatePage(page);
+            }
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (Exception e) {
+            log.info("{CACHED ERROR}" + e);
+            return null;
+        }
+    }
 }

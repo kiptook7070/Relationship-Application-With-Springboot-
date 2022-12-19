@@ -28,20 +28,20 @@ public class SwaggerConfig {
                 Collections.emptyList());
     }
 
-    @Bean
-    public Docket docket() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
-                .apiInfo(apiInfo())
-                .globalRequestParameters(Arrays.asList(new RequestParameterBuilder().name("userName")
-                        .description("Remote User").in(ParameterType.HEADER).required(true)
-                        .query(simpleParameterSpecificationBuilder -> simpleParameterSpecificationBuilder
-                                .allowEmptyValue(false).model(modelSpecificationBuilder -> modelSpecificationBuilder
-                                        .scalarModel(ScalarType.STRING)))
-                        .build())).globalRequestParameters(Arrays.asList(new RequestParameterBuilder().name("entityId")
-                        .description("Entity ID").in(ParameterType.HEADER).required(true)
-                        .query(simpleParameterSpecificationBuilder -> simpleParameterSpecificationBuilder
-                                .allowEmptyValue(false).model(modelSpecificationBuilder -> modelSpecificationBuilder
-                                        .scalarModel(ScalarType.STRING)))
-                        .build()));
-    }
+//    @Bean
+//    public Docket docket() {
+//        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+//                .apiInfo(apiInfo())
+//                .globalRequestParameters(Arrays.asList(new RequestParameterBuilder().name("userName")
+//                        .description("Remote User").in(ParameterType.HEADER).required(true)
+//                        .query(simpleParameterSpecificationBuilder -> simpleParameterSpecificationBuilder
+//                                .allowEmptyValue(false).model(modelSpecificationBuilder -> modelSpecificationBuilder
+//                                        .scalarModel(ScalarType.STRING)))
+//                        .build())).globalRequestParameters(Arrays.asList(new RequestParameterBuilder().name("entityId")
+//                        .description("Entity ID").in(ParameterType.HEADER).required(true)
+//                        .query(simpleParameterSpecificationBuilder -> simpleParameterSpecificationBuilder
+//                                .allowEmptyValue(false).model(modelSpecificationBuilder -> modelSpecificationBuilder
+//                                        .scalarModel(ScalarType.STRING)))
+//                        .build()));
+//    }
 }
