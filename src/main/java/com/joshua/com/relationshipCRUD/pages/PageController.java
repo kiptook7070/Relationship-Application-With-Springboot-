@@ -37,10 +37,18 @@ public class PageController {
                 response.setEntity("");
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                pageService.addNewPage(page);
-                page.setPostedBy("SYSTEM");
+
                 page.setPostedFlag("Y");
                 page.setPostedTime(new Date());
+                page.setPostedBy("SYSTEM");
+                page.setDeletedFlag("N");
+                page.setDeletedBy("NONE");
+                page.setModifiedFlag("N");
+                page.setModifiedBy("NONE");
+                page.setVerifiedBy("NONE");
+                page.setVerifiedFlag("N");
+
+                pageService.addNewPage(page);
                 EntityResponse response = new EntityResponse();
                 response.setMessage(RESPONSEMESSAGES.PAGE + " " + page.getNumber() + " " + RESPONSEMESSAGES.BOOK_PAGE_ADDED_SUCCESSFULLY);
                 response.setStatusCode(HttpStatus.CREATED.value());

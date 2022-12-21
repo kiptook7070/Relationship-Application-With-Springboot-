@@ -5,6 +5,7 @@ import com.joshua.com.relationshipCRUD.pages.Page;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,9 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(
-        name = "books"
-)
+@ToString
 public class Book implements Serializable {
     @Id
     @SequenceGenerator(
@@ -45,29 +44,23 @@ public class Book implements Serializable {
             unique = true
     )
     private String isbn;
-    @OneToMany(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            targetEntity = Page.class)
-    @JoinColumn(
-            name = "book_id",
-            referencedColumnName = "id"
-    )
+
+    //    Relationship with  PAGES
+    @OneToMany(targetEntity = Page.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Page> pages;
 
-    @Column(length = 30, nullable = false)
     private String postedBy;
-    @Column(nullable = false)
-    private String postedFlag = "Y";
-    @Column(nullable = false)
+    private String postedFlag;
     private Date postedTime;
     private String modifiedBy;
-    private String modifiedFlag = "N";
+    private String modifiedFlag;
     private Date modifiedTime;
     private String verifiedBy;
-    private String verifiedFlag = "N";
+    private String verifiedFlag;
     private Date verifiedTime;
     private String deletedBy;
-    private String deletedFlag = "N";
+    private String deletedFlag;
     private Date deletedTime;
 }

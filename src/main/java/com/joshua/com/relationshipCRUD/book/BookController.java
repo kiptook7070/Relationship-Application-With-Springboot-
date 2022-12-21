@@ -39,6 +39,13 @@ public class BookController {
                 book.setPostedFlag("Y");
                 book.setPostedTime(new Date());
                 book.setPostedBy("SYSTEM");
+                book.setDeletedFlag("N");
+                book.setDeletedBy("NONE");
+                book.setModifiedFlag("N");
+                book.setModifiedBy("NONE");
+                book.setVerifiedBy("NONE");
+                book.setVerifiedFlag("N");
+
                 bookService.registerBook(book);
                 EntityResponse response = new EntityResponse();
                 response.setMessage(RESPONSEMESSAGES.BOOK + " "+ " "+ RESPONSEMESSAGES.ISBN + " " + book.getIsbn() + " " + RESPONSEMESSAGES.BOOK_ADDED_SUCCESSFULLY);
@@ -84,15 +91,12 @@ public class BookController {
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
 
-
             else {
                 EntityResponse response = new EntityResponse();
                 response.setMessage("THE BOOK WITH CODE REGISTRATION" + " " + book.getId() + " " + "NOT FOUND");
                 response.setStatusCode(HttpStatus.OK.value());
                 response.setEntity("");
                 return new ResponseEntity<>(response, HttpStatus.OK);
-
-
             }
 
         } catch (Exception e) {

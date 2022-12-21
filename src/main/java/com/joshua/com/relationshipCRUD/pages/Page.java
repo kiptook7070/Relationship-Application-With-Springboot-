@@ -3,6 +3,7 @@ package com.joshua.com.relationshipCRUD.pages;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,9 +13,7 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(
-        name = "tbl_pages"
-)
+@ToString
 public class Page implements Serializable {
     @Id
     @SequenceGenerator(
@@ -39,24 +38,21 @@ public class Page implements Serializable {
             columnDefinition = "TEXT"
     )
     private String chapter;
-    @Column(
-            columnDefinition = "INT",
-            nullable = false
-    )
+
+    @JoinColumn(name = "book_id")
     private Long book_id;
-    @Column(length = 30, nullable = false)
+
     private String postedBy;
-    @Column(nullable = false)
-    private String postedFlag = "Y";
-    @Column(nullable = false)
+    private String postedFlag;
     private Date postedTime;
     private String modifiedBy;
-    private String modifiedFlag = "N";
+    private String modifiedFlag;
     private Date modifiedTime;
     private String verifiedBy;
-    private String verifiedFlag = "N";
+    private String verifiedFlag;
     private Date verifiedTime;
     private String deletedBy;
-    private String deletedFlag = "N";
+    private String deletedFlag;
     private Date deletedTime;
+
 }
