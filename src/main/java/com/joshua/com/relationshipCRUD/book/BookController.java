@@ -74,7 +74,7 @@ public class BookController {
         }
     }
     @PutMapping("/update")
-    public ResponseEntity<?> updateBook(@Validated @RequestBody Book book){
+    public ResponseEntity<?> updateBook( @RequestBody Book book){
         try {
             Optional<Book> book1 = bookRepo.findBookById(book.getId());
             System.out.println("BOOK ID" + book1);

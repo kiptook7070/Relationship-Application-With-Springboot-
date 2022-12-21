@@ -48,7 +48,7 @@ public class Book implements Serializable {
     //    Relationship with  PAGES
     @OneToMany(targetEntity = Page.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "id")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Page> pages;
 
     private String postedBy;

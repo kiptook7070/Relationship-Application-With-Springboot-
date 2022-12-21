@@ -39,8 +39,7 @@ public class Page implements Serializable {
     )
     private String chapter;
 
-    @JoinColumn(name = "book_id")
-    private Long book_id;
+
 
     private String postedBy;
     private String postedFlag;
