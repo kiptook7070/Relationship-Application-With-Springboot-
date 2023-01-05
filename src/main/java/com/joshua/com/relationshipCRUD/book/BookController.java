@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 @Api(value = "Books API", tags = "Book APIs")
 @Slf4j
 @RequestMapping("v1/api/book")
@@ -48,7 +49,7 @@ public class BookController {
 
                 bookService.registerBook(book);
                 EntityResponse response = new EntityResponse();
-                response.setMessage(RESPONSEMESSAGES.BOOK + " "+ " "+ RESPONSEMESSAGES.ISBN + " " + book.getIsbn() + " " + RESPONSEMESSAGES.BOOK_ADDED_SUCCESSFULLY);
+                response.setMessage(RESPONSEMESSAGES.BOOK + " " + " " + RESPONSEMESSAGES.ISBN + " " + book.getIsbn() + " " + RESPONSEMESSAGES.BOOK_ADDED_SUCCESSFULLY);
                 response.setStatusCode(HttpStatus.CREATED.value());
                 response.setEntity(book);
                 return new ResponseEntity<>(response, HttpStatus.OK);
@@ -59,7 +60,8 @@ public class BookController {
             return null;
         }
     }
-@GetMapping("/all")
+
+    @GetMapping("/all")
     public ResponseEntity<?> getAllBooks() {
         try {
             List<Book> book = bookService.getAllBooks();
@@ -73,8 +75,9 @@ public class BookController {
             return null;
         }
     }
+
     @PutMapping("/update")
-    public ResponseEntity<?> updateBook( @RequestBody Book book){
+    public ResponseEntity<?> updateBook(@RequestBody Book book) {
         try {
             Optional<Book> book1 = bookRepo.findBookById(book.getId());
             System.out.println("BOOK ID" + book1);
@@ -89,9 +92,7 @@ public class BookController {
                 response.setStatusCode(HttpStatus.CREATED.value());
                 response.setEntity(book);
                 return new ResponseEntity<>(response, HttpStatus.OK);
-            }
-
-            else {
+            } else {
                 EntityResponse response = new EntityResponse();
                 response.setMessage("THE BOOK WITH CODE REGISTRATION" + " " + book.getId() + " " + "NOT FOUND");
                 response.setStatusCode(HttpStatus.OK.value());
